@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  backend:
+    build:
+      context: ./toolDock_backend
+    container_name: tooldock_backend
+    user: "1000:1000"
+    volumes:
+      - ./toolDock_backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=tool_dock
+      - DB_USER=root
+      - DB_PASSWORD=1234
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: tooldock_mysql
+    environment:
+      MYSQL_DATABASE: too_dock
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+volumes:
+  mysqldata:
