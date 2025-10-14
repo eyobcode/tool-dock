@@ -25,3 +25,40 @@ class Tool(models.Model):
         return self.name
 
 
+class ScanJob(models.Model):
+
+    STATUS = [
+        ('queued', 'Queued'),
+        ('running', 'Running'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    ]
+
+    job_id = models.UUIDField(default=uuid4, unique=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scans")
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="scan_jobs")
+    input_type = models.ForeignKey(InputType, on_delete=models.SET_NULL, null=True, blank=True)
+    target = models.CharField(max_length=255)
+    consent = models.BooleanField(default=False)
+    options = models.JSONField(default=dict)
+
+    status = models.CharField(max_length=20, choices=STATUS, default='queued')
+    progress = models.PositiveIntegerField(default=0)
+    current_step = models.CharField(max_length=100, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    started_at = models.DateTimeField(null=True, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    raw_output = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.tool.name} ({self.job_id})"
+    
+    def clean(self):
+        if self.input_type and self.tool:
+            if not self.tool.input_types.filter(pk=self.input_type.pk).exists():
+                raise ValidationError(
+                    f"{self.tool.name} does not support '{self.input_type.name}' input type."
+                )
+
