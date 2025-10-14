@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
 celery = "*"
 redis = "*"
+django = "*"
 
 [dev-packages]
 
