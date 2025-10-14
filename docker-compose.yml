@@ -17,6 +17,7 @@ services:
       - DB_PASSWORD=1234
     depends_on:
       - db
+      - redis
 
   db:
     image: mysql:8
@@ -30,6 +31,11 @@ services:
       - "3307:3306"
     volumes:
       - mysqldata:/var/lib/mysql
-
+  redis:
+      image: redis:7
+      container_name: tooldock_redis
+      restart: always
+      ports:
+        - "6379:6379"
 volumes:
   mysqldata:

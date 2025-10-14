@@ -2,3 +2,5 @@ asgiref==3.10.0
 Django==5.2.7
 djangorestframework==3.16.1
 sqlparse==0.5.3
+celery==5.4.0
+redis==5.0.8
