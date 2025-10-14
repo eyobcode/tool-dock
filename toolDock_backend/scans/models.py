@@ -62,3 +62,18 @@ class ScanJob(models.Model):
                     f"{self.tool.name} does not support '{self.input_type.name}' input type."
                 )
 
+class Finding(models.Model):
+    job = models.ForeignKey(ScanJob, on_delete=models.CASCADE, related_name="findings")
+    severity = models.CharField(max_length=10, default='info')
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    category = models.CharField(max_length=100, blank=True)
+    cvss_score = models.FloatField(default=0.0)
+    cve_ids = models.JSONField(default=list, blank=True)
+    port = models.IntegerField(null=True, blank=True)
+    protocol = models.CharField(max_length=10, blank=True)
+    service = models.CharField(max_length=50, blank=True)
+    version = models.CharField(max_length=100, blank=True)
+    remediation = models.TextField(blank=True)
+    references = models.JSONField(default=list, blank=True)
+    affected_component = models.CharField(max_length=255, blank=True)
