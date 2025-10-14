@@ -5,15 +5,24 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install system dependencies for MySQL 
+# Install system dependencies for MySQL + build tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
         default-libmysqlclient-dev \
-        netcat-openbsd && \
+        libmariadb-dev-compat \
+        libmariadb-dev \
+        default-mysql-client \  
+        pkg-config \
+        netcat-openbsd \
+        build-essential \
+        libssl-dev \
+        libffi-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy and install Python dependencies
+
+
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
@@ -21,7 +30,7 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY . .
 
-# Ensure entrypoint is executable
+# Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
