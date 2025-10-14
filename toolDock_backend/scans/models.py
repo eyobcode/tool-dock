@@ -12,3 +12,16 @@ class InputType(models.Model):
     def __str__(self):
         return self.name
 
+class Tool(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True)
+    path = models.CharField(max_length=255)  # e.g., scans/tools/nmap.py
+    enabled = models.BooleanField(default=True)
+    estimated_duration = models.PositiveIntegerField(default=60)  # in seconds
+
+    input_types = models.ManyToManyField(InputType, related_name='tools')
+
+    def __str__(self):
+        return self.name
+
+
