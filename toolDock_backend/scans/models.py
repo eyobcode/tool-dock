@@ -35,12 +35,12 @@ class ScanJob(models.Model):
     ]
 
     job_id = models.UUIDField(default=uuid4, unique=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scans")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scans",null=True)
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="scan_jobs")
     input_type = models.ForeignKey(InputType, on_delete=models.SET_NULL, null=True, blank=True)
     target = models.CharField(max_length=255)
     consent = models.BooleanField(default=False)
-    options = models.JSONField(default=dict)
+    options = models.JSONField(default=dict,null=True)
 
     status = models.CharField(max_length=20, choices=STATUS, default='queued')
     progress = models.PositiveIntegerField(default=0)
