@@ -8,6 +8,7 @@ celery = "*"
 redis = "*"
 django = "*"
 mysqlclient = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
