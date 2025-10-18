@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 class ScanSerializer(serializers.ModelSerializer):
     options = serializers.JSONField(required=False)
-
     class Meta:
         model = ScanJob
         fields = ["target", "tool", "input_type", "consent", "options"]

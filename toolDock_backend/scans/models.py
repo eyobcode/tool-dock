@@ -34,7 +34,7 @@ class ScanJob(models.Model):
         ('failed', 'Failed'),
     ]
 
-    job_id = models.UUIDField(default=uuid4, unique=True, editable=False)
+    job_id = models.UUIDField(primary_key=True,default=uuid4,editable=False,unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scans",null=True)
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="scan_jobs")
     input_type = models.ForeignKey(InputType, on_delete=models.SET_NULL, null=True, blank=True)
