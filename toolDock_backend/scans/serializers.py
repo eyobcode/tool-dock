@@ -1,4 +1,4 @@
-from .models import ScanJob, Finding, InputType
+from .models import ScanJob, Finding
 from rest_framework import serializers
 
 class ScanSerializer(serializers.ModelSerializer):

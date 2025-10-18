@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'playground',
     'scans',
+    'core',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +84,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT'),
     }
 }
@@ -107,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "core.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

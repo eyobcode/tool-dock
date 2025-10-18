@@ -1,29 +1,58 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from uuid import uuid4
+from django.conf import settings
+from uuid import uuid4 
+from django.utils.translation import gettext_lazy as _ 
 
 
 
-class InputType(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+class ToolCategory(models.Model):
+    id = models.CharField(
+        primary_key=True,
+        max_length=100,
+        editable=False
+    )  # e.g. "network_scanning"
+
+    name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    icon = models.CharField(max_length=100, blank=True)
+
+
+    def save(self, *args, **kwargs):
+        if not self.id and self.name:
+            self.id = self.name.lower().replace(" ", "_")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
+    @property
+    def tool_count(self):
+        return self.tools.count() # type: ignore
+
+
 
 class Tool(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    description = models.TextField(blank=True)
-    path = models.CharField(max_length=255)  # e.g., scans/tools/nmap.py
-    enabled = models.BooleanField(default=True)
-    estimated_duration = models.PositiveIntegerField(default=60)  # in seconds
 
-    input_types = models.ManyToManyField(InputType, related_name='tools')
+    name = models.CharField(max_length=100, unique=True)
+    display_name = models.CharField(max_length=100)
+    category = models.ForeignKey(
+        ToolCategory,
+        on_delete=models.CASCADE,
+        related_name='tools'
+    )
+    description = models.TextField(blank=True)
+    long_description = models.TextField(blank=True, null=True)
+    icon = models.CharField(max_length=100, blank=True)
+    requires_consent = models.BooleanField(default=False)
+
+    input_schema = models.JSONField(default=dict)
+    supported_input_types = models.JSONField(default=list)
+
+    estimated_duration = models.PositiveIntegerField(help_text="In seconds", default=0)
+    difficulty = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
-
+        return self.display_name
 
 class ScanJob(models.Model):
 
@@ -35,9 +64,9 @@ class ScanJob(models.Model):
     ]
 
     job_id = models.UUIDField(primary_key=True,default=uuid4,editable=False,unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scans",null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="scans",null=True)
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="scan_jobs")
-    input_type = models.ForeignKey(InputType, on_delete=models.SET_NULL, null=True, blank=True)
+    input_type = models.CharField(max_length=50)
     target = models.CharField(max_length=255)
     consent = models.BooleanField(default=False)
     options = models.JSONField(default=dict,null=True)
@@ -55,13 +84,6 @@ class ScanJob(models.Model):
     def __str__(self):
         return f"{self.tool.name} ({self.job_id})"
     
-    def clean(self):
-        if self.input_type and self.tool:
-            if not self.tool.input_types.filter(pk=self.input_type.pk).exists():
-                raise ValidationError(
-                    f"{self.tool.name} does not support '{self.input_type.name}' input type."
-                )
-
 class Finding(models.Model):
     job = models.ForeignKey(ScanJob, on_delete=models.CASCADE, related_name="findings")
     severity = models.CharField(max_length=10, default='info')

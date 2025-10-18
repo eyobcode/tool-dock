@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, CreateModelMixin
 from rest_framework import status
 from rest_framework.response import Response
-from .models import ScanJob, Finding, Tool, InputType
+from .models import ScanJob, Finding, Tool
 from .serializers import ScanSerializer
 
 
