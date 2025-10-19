@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'playground',
     'scans',
     'core',
-    'accounts'
+    'accounts',
+    'tools',
 ]
 
 MIDDLEWARE = [
