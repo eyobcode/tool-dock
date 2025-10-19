@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-celery = "*"
 redis = "*"
 django = "*"
 mysqlclient = "*"
 drf-nested-routers = "*"
+celery = "*"
 
 [dev-packages]
 
