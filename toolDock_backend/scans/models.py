@@ -99,3 +99,5 @@ class Finding(models.Model):
     remediation = models.TextField(blank=True)
     references = models.JSONField(default=list, blank=True)
     affected_component = models.CharField(max_length=255, blank=True)
+
+
