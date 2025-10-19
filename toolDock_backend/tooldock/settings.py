@@ -144,6 +144,10 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
 
-REST_FRAMEWORK = {
-   
+REST_FRAMEWORK = {}
+
+
+TOOL_RUNNERS = {
+    "nmap": "tools.nmap_adapter.NmapRunner",
+    # "whois": "tools.whois_adapter.WhoisRunner",
 }
