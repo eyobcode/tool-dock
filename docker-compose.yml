@@ -9,6 +9,7 @@ services:
     user: "1000:1000"
     volumes:
       - ./toolDock_backend:/app
+      - ./findings:/app/findings
     ports:
       - "8000:8000"
     environment:
