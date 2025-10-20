@@ -5,3 +5,117 @@
 {"time": "2025-10-20 16:45:36,152", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
 {"time": "2025-10-20 16:46:58,876", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
 {"time": "2025-10-20 16:47:00,608", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:52:04,438", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/serializers.py changed, reloading."}
+{"time": "2025-10-20 18:52:06,552", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:52:16,299", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/serializers.py changed, reloading."}
+{"time": "2025-10-20 18:52:18,130", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:52:21,672", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/serializers.py changed, reloading."}
+{"time": "2025-10-20 18:52:23,488", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:52:36,297", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/serializers.py changed, reloading."}
+{"time": "2025-10-20 18:52:38,015", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:07,307", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:53:09,175", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:16,855", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:53:18,554", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:37,503", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:53:39,336", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:40,868", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:53:42,715", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:52,428", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:53:54,170", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:53:59,792", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:54:01,600", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:54:06,165", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:54:07,817", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:54:14,432", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:54:16,167", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:54:17,662", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:54:19,355", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:54:46,539", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:54:48,233", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:56:34,646", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:56:36,475", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:56:37,985", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:56:39,679", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:56:49,391", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:56:51,161", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:56:54,704", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:56:56,407", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:57:06,133", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:57:07,855", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:57:43,320", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:57:45,104", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:57:47,624", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:57:49,335", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:57:59,062", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:58:00,916", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:58:13,748", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:58:15,514", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:58:17,003", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:58:18,671", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:58:27,376", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:58:29,281", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:58:52,383", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:58:54,381", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:59:02,071", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:59:04,056", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:59:07,409", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:59:09,392", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:59:17,038", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:59:18,862", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 18:59:38,856", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 18:59:40,675", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:11,022", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:13,007", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:17,640", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:19,518", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:30,285", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:31,963", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:34,484", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:36,253", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:41,875", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:43,605", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:00:51,251", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:00:52,983", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:01:31,530", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:01:33,356", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:01:40,009", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:01:41,704", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:07,872", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:09,710", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:23,540", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:25,448", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:26,932", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:28,590", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:31,110", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:32,852", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:48,774", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:50,633", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:02:53,203", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:02:54,926", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:03:13,899", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:03:15,719", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:03:33,689", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:03:35,714", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:03:48,528", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:03:50,349", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:03:55,990", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:03:57,705", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:04:20,810", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:04:22,668", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:04:26,210", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:04:27,918", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:04:29,445", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:04:31,409", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:04:35,033", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:04:36,845", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:04:52,795", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:04:54,694", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:05:03,406", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:05:05,129", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:05:07,652", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:05:09,338", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:05:18,023", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:05:19,676", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
+{"time": "2025-10-20 19:05:23,223", "level": "INFO", "module": "django.utils.autoreload", "msg": "/app/scans/tasks.py changed, reloading."}
+{"time": "2025-10-20 19:05:24,937", "level": "INFO", "module": "django.utils.autoreload", "msg": "Watching for file changes with StatReloader"}
