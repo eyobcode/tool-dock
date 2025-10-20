@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import ScanJob, Finding, Tool
 from .serializers import ScanSerializer
+from .tasks import run_scan_task
 
 
 class ScanViewSet(CreateModelMixin, GenericViewSet):
@@ -34,10 +35,11 @@ class ScanViewSet(CreateModelMixin, GenericViewSet):
             options = options_raw
         scan_type = options.get("scan_type", "default")
 
+        run_scan_task.delay(str(scan_job.job_id))
 
         # Quick scan shortcut
-        if scan_type == "quick":
-            return Response({'Quick': 'ok'}, status=status.HTTP_201_CREATED)
+        # if scan_type == "quick":
+        #     return Response({'Quick': 'ok'}, status=status.HTTP_201_CREATED)
 
         # Normal scan response
         response_data = {
