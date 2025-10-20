@@ -1,4 +1,5 @@
 import subprocess
+from urllib.parse import urlparse
 import re
 from typing import Callable, Optional
 
@@ -8,12 +9,17 @@ class NmapRunner:
         Run nmap scan on the target with given options.
         
         :param target: The target IP or hostname to scan.
-        :param options: Dictionary of options, e.g., {'scan_type': 'quick', 'ports': '1-1000'}.
+        :param options: Dictionary of options, e.g., {"scan_type": "quick", "ports": "1-1000"}.
         :param progress_callback: Optional callback function to report progress.
                                   Takes two args: progress_percent (int 0-100), step_description (str).
         :return: Raw XML output from nmap.
+
         """
-        scan_type = options.get('scan_type', 'full')
+        parsed = urlparse(target)
+        if parsed.scheme in ('http', 'https'):
+            target = parsed.netloc  
+
+        scan_type = options.get('scan_type', 'full') or 'full'
         
         # Base nmap command with XML output (-oX -) for easy parsing later
         args = ['nmap', '-oX', '-', '--stats-every', '5s']  # Add stats every 5s for progress updates
