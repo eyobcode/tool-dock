@@ -1,7 +1,12 @@
+import os
+import json
+import logging
 from celery import shared_task
 from django.utils import timezone
 from .models import ScanJob, Finding
-import time  # For throttling if needed
+import time
+
+# logger = logging.getLogger(__name__)
 
 @shared_task(bind=True)
 def run_scan_task(self, job_id):
@@ -25,13 +30,13 @@ def run_scan_task(self, job_id):
         job.status = 'failed'
         job.completed_at = timezone.now()
         job.save(update_fields=['status', 'completed_at'])
-        raise e
+        raise
 
-    # Throttle: Only update if estimated_duration > 30 seconds (adjust threshold)
     enable_progress = job.tool.estimated_duration > 30
-    last_update_time = time.time()  # For throttling saves
+    last_update_time = time.time()
 
     def progress_callback(progress_percent, step_description, force_save=False):
+        nonlocal last_update_time
         if not enable_progress and not force_save:
             return  # Skip for quick tools, except forced saves
         current_time = time.time()
@@ -47,8 +52,33 @@ def run_scan_task(self, job_id):
         # Initial progress (0%) right before runner
         progress_callback(0, 'Starting scan', force_save=True)
 
-        # Actual runner call (pass callback; runner will call it internally)
-        raw_output = runner.run(job.target, job.options, progress_callback=progress_callback)
+        opts = job.options
+
+        # Normalize:
+        if opts is None or (isinstance(opts, str) and opts.strip() == ""):
+            opts = {}
+        elif isinstance(opts, str):
+            try:
+                opts = json.loads(opts)
+            except Exception:
+                logger.warning("Failed to parse JSON options for job %s; using empty dict", job.job_id)
+                opts = {}
+        elif isinstance(opts, dict):
+            # already good
+            pass
+        else:
+            # Try to coerce (for example a QueryDict or list of pairs)
+            try:
+                opts = dict(opts)
+            except Exception:
+                logger.warning("Options for job %s are unexpected type %s; using empty dict", job.job_id, type(opts))
+                opts = {}
+
+        # final safe fallback
+        opts = opts or {}
+
+        raw_output = runner.run(job.target, opts, progress_callback=progress_callback)
+
 
         # Final progress (100%) after runner, force save
         progress_callback(100, 'Scan completed', force_save=True)
@@ -59,24 +89,27 @@ def run_scan_task(self, job_id):
         job.completed_at = timezone.now()
         job.save(update_fields=['raw_output', 'status', 'completed_at'])
 
-        # Parse and create Findings
+        # parse findings (pure function)
         findings_data = parse_scan_output(raw_output, job.tool.name)
-        for finding_data in findings_data:
+        
+        # Create DB findings
+        for finding in findings_data:
+            logger.debug("Creating finding for job %s: %s", job.job_id, finding.get('title'))
             Finding.objects.create(
                 job=job,
-                severity=finding_data.get('severity', 'info'),
-                title=finding_data.get('title', 'Untitled Finding'),
-                description=finding_data.get('description', ''),
-                category=finding_data.get('category', ''),
-                cvss_score=finding_data.get('cvss_score', 0.0),
-                cve_ids=finding_data.get('cve_ids', []),
-                port=finding_data.get('port'),
-                protocol=finding_data.get('protocol'),
-                service=finding_data.get('service'),
-                version=finding_data.get('version'),
-                remediation=finding_data.get('remediation', ''),
-                references=finding_data.get('references', []),
-                affected_component=finding_data.get('affected_component', '')
+                severity=finding.get('severity', 'info'),
+                title=finding.get('title', 'Untitled Finding'),
+                description=finding.get('description', ''),
+                category=finding.get('category', ''),
+                cvss_score=finding.get('cvss_score', 0.0),
+                cve_ids=finding.get('cve_ids', []),
+                port=finding.get('port'),
+                protocol=finding.get('protocol'),
+                service=finding.get('service'),
+                version=finding.get('version'),
+                remediation=finding.get('remediation', ''),
+                references=finding.get('references', []),
+                affected_component=finding.get('affected_component', '')
             )
 
         return {'status': 'completed', 'job_id': str(job.job_id), 'findings_count': len(findings_data)}
@@ -86,8 +119,11 @@ def run_scan_task(self, job_id):
         job.completed_at = timezone.now()
         job.current_step = f'Error: {str(e)}'
         job.save(update_fields=['status', 'completed_at', 'current_step'])
-        raise e
+        logger.exception("Scan task failed for job %s", job_id)
+        raise
 
+
+# parsing function (no prints, no file IO)
 import xml.etree.ElementTree as ET
 from typing import List, Dict
 
@@ -115,82 +151,84 @@ def parse_scan_output(raw_output: str, tool_name: str) -> List[Dict]:
     
     # Iterate over each <host> in the <nmaprun>
     for host in root.findall('host'):
-        host_address = host.find("address[@addrtype='ipv4']").get('addr') if host.find("address[@addrtype='ipv4']") is not None else 'Unknown'
-        
+        addr_elem = host.find("address[@addrtype='ipv4']")
+        host_address = addr_elem.get('addr') if addr_elem is not None else 'Unknown'
         # Extract ports and services
         ports = host.find('ports')
-        if ports is not None:
-            for port in ports.findall('port'):
-                state_elem = port.find('state')
-                if state_elem is None or state_elem.get('state') != 'open':
-                    continue  # Only open ports
-                
-                port_id = int(port.get('portid'))
-                protocol = port.get('protocol', 'tcp')
-                
-                # Service details
-                service_elem = port.find('service')
-                service_name = service_elem.get('name') if service_elem is not None else 'Unknown'
-                version = service_elem.get('product') + ' ' + service_elem.get('version') if service_elem is not None else ''
-                version = version.strip()
-                
-                # Basic finding for open port
-                finding = {
-                    'severity': 'info',  # Default; override if vuln found
-                    'title': f'Open Port: {port_id}/{protocol}',
-                    'description': f'Open port detected on {host_address}. Service: {service_name}. Version: {version}.',
-                    'category': 'Network Exposure',
-                    'cvss_score': 0.0,
-                    'cve_ids': [],
-                    'port': port_id,
-                    'protocol': protocol,
-                    'service': service_name,
-                    'version': version,
-                    'remediation': 'Ensure this port is necessary and properly secured (e.g., firewall rules, updates).',
-                    'references': [],
-                    'affected_component': host_address
-                }
-                
-                # Check for script outputs (e.g., vulners for vulnerabilities)
-                for script in port.findall('script'):
-                    if script.get('id') == 'vulners':
-                        # Parse vulners output: Typically a <table> with <elem> for cve, cvss, etc.
-                        for table in script.findall('table'):
-                            cve = ''
-                            cvss = 0.0
-                            refs = []
-                            for elem in table.findall('elem'):
-                                key = elem.get('key')
-                                if key == 'id':
-                                    cve = elem.text
-                                elif key == 'cvss':
-                                    try:
-                                        cvss = float(elem.text)
-                                    except ValueError:
-                                        cvss = 0.0
-                                elif key == 'references':
-                                    refs = elem.text.split() if elem.text else []  # Assuming space-separated
-                            
-                            if cve:
-                                finding['cve_ids'].append(cve)
-                                finding['cvss_score'] = max(finding['cvss_score'], cvss)  # Take highest
-                                finding['references'].extend(refs)
-                                
-                                # Update severity based on CVSS (common mapping)
-                                if cvss >= 9.0:
-                                    finding['severity'] = 'critical'
-                                elif cvss >= 7.0:
-                                    finding['severity'] = 'high'
-                                elif cvss >= 4.0:
-                                    finding['severity'] = 'medium'
-                                elif cvss > 0.0:
-                                    finding['severity'] = 'low'
-                                
-                                # Enhance description and remediation
-                                finding['description'] += f'\nVulnerability: {cve} (CVSS: {cvss}).'
-                                finding['remediation'] += ' Apply patches or mitigations as per references.'
-                
-                findings.append(finding)
-    print(findings)
-    
+        if ports is None:
+            continue
+
+        for port in ports.findall('port'):
+            state_elem = port.find('state')
+            if state_elem is None or state_elem.get('state') != 'open': # Only open ports
+                continue
+
+            port_id = int(port.get('portid'))
+            protocol = port.get('protocol', 'tcp')
+
+            service_elem = port.find('service')
+            service_name = service_elem.get('name') if service_elem is not None else 'Unknown'
+            if service_elem is not None:
+                version = ' '.join(filter(None, [
+                    service_elem.get('product'),
+                    service_elem.get('version')
+                ])).strip()
+            else:
+                version = ''
+
+            finding = {
+                'severity': 'info', # Default; override if vuln found
+                'title': f'Open Port: {port_id}/{protocol}',
+                'description': f'Open port detected on {host_address}. Service: {service_name}. Version: {version}.',
+                'category': 'Network Exposure',
+                'cvss_score': 0.0,
+                'cve_ids': [],
+                'port': port_id,
+                'protocol': protocol,
+                'service': service_name,
+                'version': version,
+                'remediation': 'Ensure this port is necessary and properly secured (e.g., firewall rules, updates).',
+                'references': [],
+                'affected_component': host_address
+            }
+
+            # Check for script outputs (e.g., vulners for vulnerabilities)
+            for script in port.findall('script'):
+                if script.get('id') == 'vulners':
+                    # Parse vulners output: Typically a <table> with <elem> for cve, cvss, etc.
+                    for table in script.findall('table'):
+                        cve = ''
+                        cvss = 0.0
+                        refs = []
+                        for elem in table.findall('elem'):
+                            key = elem.get('key')
+                            if key == 'id':
+                                cve = elem.text
+                            elif key == 'cvss':
+                                try:
+                                    cvss = float(elem.text)
+                                except (ValueError, TypeError):
+                                    cvss = 0.0
+                            elif key == 'references':
+                                refs = elem.text.split() if elem.text else []  # Assuming space-separated
+
+                        if cve:
+                            finding['cve_ids'].append(cve)
+                            finding['cvss_score'] = max(finding['cvss_score'], cvss)  # Take highest
+                            finding['references'].extend(refs)
+                            # Update severity based on CVSS (common mapping)
+                            if cvss >= 9.0:
+                                finding['severity'] = 'critical'
+                            elif cvss >= 7.0:
+                                finding['severity'] = 'high'
+                            elif cvss >= 4.0:
+                                finding['severity'] = 'medium'
+                            elif cvss > 0.0:
+                                finding['severity'] = 'low'
+                            # Enhance description and remediation
+                            finding['description'] += f'\nVulnerability: {cve} (CVSS: {cvss}).'
+                            finding['remediation'] += ' Apply patches or mitigations as per references.'
+
+            findings.append(finding)
+
     return findings
