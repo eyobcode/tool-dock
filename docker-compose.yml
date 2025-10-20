@@ -5,6 +5,7 @@ services:
     build:
       context: ./toolDock_backend
     container_name: tooldock_backend
+    command: python manage.py runserver 0.0.0.0:8000
     user: "1000:1000"
     volumes:
       - ./toolDock_backend:/app
@@ -37,6 +38,22 @@ services:
     restart: always
     ports:
       - "6379:6379"
+  celery_worker:
+    build:
+      context: ./toolDock_backend
+    container_name: tooldock_celery_worker
+    command: celery -A tooldock worker -l info
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ./toolDock_backend:/app
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=tool_dock
+      - DB_USER=root
+      - DB_PASSWORD=myPassword
 
 volumes:
   mysqldata:

@@ -12,16 +12,16 @@ RUN apt-get update && \
         default-libmysqlclient-dev \
         libmariadb-dev-compat \
         libmariadb-dev \
-        default-mysql-client \  
+        default-mysql-client \
         pkg-config \
         netcat-openbsd \
         build-essential \
         libssl-dev \
-        libffi-dev && \
+        libffi-dev \
+        nmap && \
     rm -rf /var/lib/apt/lists/*
 
-
-
+    
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip
