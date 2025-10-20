@@ -61,7 +61,6 @@ def run_scan_task(self, job_id):
             try:
                 opts = json.loads(opts)
             except Exception:
-                logger.warning("Failed to parse JSON options for job %s; using empty dict", job.job_id)
                 opts = {}
         elif isinstance(opts, dict):
             # already good
@@ -71,7 +70,6 @@ def run_scan_task(self, job_id):
             try:
                 opts = dict(opts)
             except Exception:
-                logger.warning("Options for job %s are unexpected type %s; using empty dict", job.job_id, type(opts))
                 opts = {}
 
         # final safe fallback
@@ -94,7 +92,6 @@ def run_scan_task(self, job_id):
         
         # Create DB findings
         for finding in findings_data:
-            logger.debug("Creating finding for job %s: %s", job.job_id, finding.get('title'))
             Finding.objects.create(
                 job=job,
                 severity=finding.get('severity', 'info'),
@@ -119,7 +116,6 @@ def run_scan_task(self, job_id):
         job.completed_at = timezone.now()
         job.current_step = f'Error: {str(e)}'
         job.save(update_fields=['status', 'completed_at', 'current_step'])
-        logger.exception("Scan task failed for job %s", job_id)
         raise
 
 
@@ -163,7 +159,7 @@ def parse_scan_output(raw_output: str, tool_name: str) -> List[Dict]:
             if state_elem is None or state_elem.get('state') != 'open': # Only open ports
                 continue
 
-            port_id = int(port.get('portid'))
+            port_id = int(port.get('portid')) # type: ignore
             protocol = port.get('protocol', 'tcp')
 
             service_elem = port.find('service')
@@ -206,7 +202,7 @@ def parse_scan_output(raw_output: str, tool_name: str) -> List[Dict]:
                                 cve = elem.text
                             elif key == 'cvss':
                                 try:
-                                    cvss = float(elem.text)
+                                    cvss = float(elem.text) # type: ignore
                                 except (ValueError, TypeError):
                                     cvss = 0.0
                             elif key == 'references':
