@@ -109,7 +109,7 @@ def run_scan_task(self, job_id):
                 affected_component=finding.get('affected_component', '')
             )
 
-        return {'status': 'completed', 'job_id': str(job.job_id), 'findings_count': len(findings_data)}
+        return findings_data
 
     except Exception as e:
         job.status = 'failed'
