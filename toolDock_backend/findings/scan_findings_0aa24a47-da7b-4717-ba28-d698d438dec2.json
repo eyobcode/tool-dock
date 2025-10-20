@@ -1,0 +1,32 @@
+[
+    {
+        "severity": "info",
+        "title": "Open Port: 80/tcp",
+        "description": "Open port detected on 23.192.228.80. Service: http. Version: AkamaiGHost.",
+        "category": "Network Exposure",
+        "cvss_score": 0.0,
+        "cve_ids": [],
+        "port": 80,
+        "protocol": "tcp",
+        "service": "http",
+        "version": "AkamaiGHost",
+        "remediation": "Ensure this port is necessary and properly secured (e.g., firewall rules, updates).",
+        "references": [],
+        "affected_component": "23.192.228.80"
+    },
+    {
+        "severity": "info",
+        "title": "Open Port: 443/tcp",
+        "description": "Open port detected on 23.192.228.80. Service: http. Version: AkamaiGHost.",
+        "category": "Network Exposure",
+        "cvss_score": 0.0,
+        "cve_ids": [],
+        "port": 443,
+        "protocol": "tcp",
+        "service": "http",
+        "version": "AkamaiGHost",
+        "remediation": "Ensure this port is necessary and properly secured (e.g., firewall rules, updates).",
+        "references": [],
+        "affected_component": "23.192.228.80"
+    }
+]
