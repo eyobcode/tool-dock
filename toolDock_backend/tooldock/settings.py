@@ -151,3 +151,51 @@ TOOL_RUNNERS = {
     "nmap": "tools.nmap_adapter.NmapRunner",
     # "whois": "tools.whois_adapter.WhoisRunner",
 }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'pretty': {
+            'format': '[{asctime}] {levelname:^8} | {name} | {message}',
+            'style': '{'
+        },
+        'json': {
+            'format': '{{"time": "{asctime}", "level": "{levelname}", "module": "{name}", "msg": "{message}"}}',
+            'style': '{'
+        },
+    },
+    
+    # ----------------------------
+    # Handlers
+    # ----------------------------
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'pretty'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'json'
+        },
+    },
+    
+    # ----------------------------
+    # Loggers
+    # ----------------------------
+    'loggers': {
+        # Root logger (everything)
+        '': {
+            'handlers': ['console', 'file'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': True,
+        },
+        
+        # Django requests (optional: separate)
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
