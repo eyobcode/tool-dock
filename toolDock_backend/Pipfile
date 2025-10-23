@@ -7,8 +7,8 @@ name = "pypi"
 redis = "*"
 django = "*"
 mysqlclient = "*"
-drf-nested-routers = "*"
 celery = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
