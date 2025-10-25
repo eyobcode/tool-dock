@@ -25,10 +25,6 @@ class ToolCategory(models.Model):
     def __str__(self):
         return self.name
 
-    @property
-    def tool_count(self):
-        return self.tools.count() # type: ignore
-
 
 
 class Tool(models.Model):
@@ -69,7 +65,7 @@ class ScanJob(models.Model):
     input_type = models.CharField(max_length=50)
     target = models.CharField(max_length=255)
     consent = models.BooleanField(default=False)
-    options = models.JSONField(default=dict,null=True)
+    options = models.JSONField(default=dict, null=True)
 
     status = models.CharField(max_length=20, choices=STATUS, default='queued')
     progress = models.PositiveIntegerField(default=0)
