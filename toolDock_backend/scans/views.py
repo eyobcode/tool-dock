@@ -1,6 +1,5 @@
 import json
 
-
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -9,10 +8,6 @@ from rest_framework import status
 from .models import ScanJob
 from .serializers import ScanSerializer,ScanResultSerializer
 from .tasks import run_scan_task
-
-
-
-    
 
 class ScanViewSet(CreateModelMixin, GenericViewSet):
     queryset = ScanJob.objects.select_related('findings').all()
