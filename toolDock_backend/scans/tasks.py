@@ -1,6 +1,4 @@
-import os
 import json
-import logging
 from celery import shared_task
 from django.utils import timezone
 from .models import ScanJob, Finding
@@ -91,6 +89,7 @@ def run_scan_task(self, job_id):
         findings_data = parse_scan_output(raw_output, job.tool.name)
         
         # Create DB findings
+        # with transaction.atomic():
         for finding in findings_data:
             Finding.objects.create(
                 job=job,
