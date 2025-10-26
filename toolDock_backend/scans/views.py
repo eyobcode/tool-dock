@@ -36,6 +36,6 @@ class ScanViewSet(CreateModelMixin, GenericViewSet):
             run_scan_task.apply(args=[str(job.job_id)]).get()
             return Response({"ok": True, "data": result_serializer.data}, status=status.HTTP_200_OK)
         
-        run_scan_task.apply(args=[str(job.job_id)])
+        run_scan_task.delay(str(job.job_id))
         response_data = ScanSerializer(job).data
         return Response({"ok": True, "data": response_data}, status=status.HTTP_202_ACCEPTED)
