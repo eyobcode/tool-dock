@@ -1,5 +1,10 @@
-from rest_framework import serializers
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import (
+    validate_ipv46_address,
+    URLValidator
+)
+from rest_framework import serializers
 from .models import ScanJob, Tool, Finding
 
 
@@ -29,14 +34,21 @@ class ScanSerializer(serializers.ModelSerializer):
     consent = serializers.BooleanField(write_only=True)
 
     def validate(self, attrs):
-        
         if not attrs.get('consent', False):
-            raise serializers.ValidationError({"consent": "Consent must be given."})
+            raise serializers.ValidationError({"error": "User consent required for this tool."})
 
-        tool_name = attrs.get('tool')
-        if not tool_name or not settings.TOOL_RUNNERS.get(str(tool_name.name).lower()):
-            raise serializers.ValidationError({"tool": f"Tool '{tool_name}' is not supported."})
+        tool = attrs.get('tool')
+        if not tool:
+            raise serializers.ValidationError({"error": "Tool is required."})
 
+        if not settings.TOOL_RUNNERS.get(tool.name.lower()):
+            raise serializers.ValidationError({"error": f"Tool '{tool.name}' is not supported."})
+
+        input_type = attrs.get('input_type')
+        if input_type and input_type not in tool.supported_input_types:
+            raise serializers.ValidationError({
+                "error": f"Input type '{input_type}' is not supported by '{tool.name}'. "
+            })
         return attrs
 
     class Meta:
