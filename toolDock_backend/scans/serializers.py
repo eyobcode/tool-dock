@@ -1,9 +1,5 @@
+import uuid
 from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.core.validators import (
-    validate_ipv46_address,
-    URLValidator
-)
 from rest_framework import serializers
 from .models import ScanJob, Tool, Finding
 
@@ -93,3 +89,48 @@ class ScanResultSerializer(serializers.ModelSerializer):
             "summary",  
             "raw_output"
         ]
+
+
+
+class ScanRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ScanJob
+        fields = [
+            "job_id",
+            "target",
+            "tool",
+            "status",
+            "progress",
+            "current_step",
+            "created_at",
+            "started_at",
+            "completed_at",
+        ]
+    
+
+    def validate_job_id(self, job_id):
+        # try:
+        #     uuid_obj = uuid.UUID(str(job_id))
+        # except ValueError:
+        #     raise serializers.ValidationError({"error": "Invalid id format"})
+        
+        # if not ScanJob.objects.filter(job_id=uuid_obj).exists():
+        #     raise serializers.ValidationError({"error": "Scan job not found"})
+        
+        return job_id
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        if instance.status != "completed":
+            # remove fields that only make sense for completed scans
+            data.pop("completed_at", None)
+        if instance.status != "running":
+            # remove fields that only make sense for running scans
+            data.pop("current_step", None)
+
+        return data
+
+
+
+

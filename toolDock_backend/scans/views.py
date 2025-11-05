@@ -1,18 +1,25 @@
 import json
-
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
 
 from .models import ScanJob
-from .serializers import ScanSerializer,ScanResultSerializer
+from .serializers import ScanSerializer,ScanResultSerializer, ScanRetrieveSerializer
 from .tasks import run_scan_task
 
-class ScanViewSet(CreateModelMixin, GenericViewSet):
-    queryset = ScanJob.objects.select_related('findings').all()
+class ScanViewSet(CreateModelMixin, GenericViewSet,RetrieveModelMixin):
+    queryset = ScanJob.objects.prefetch_related('findings').all()
     serializer_class = ScanSerializer
+    lookup_field = "job_id"
 
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return ScanRetrieveSerializer
+        return ScanSerializer
+
+
+    
     def _parsed_options(self):
         raw_options = self.request.data.get("options") # type: ignore
         if raw_options in (None, "", "null"):
