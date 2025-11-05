@@ -50,3 +50,19 @@ class ScanViewSet(CreateModelMixin, GenericViewSet,RetrieveModelMixin):
 class ScanResultViewSet(GenericViewSet,RetrieveModelMixin):
     queryset = ScanJob.objects.all()
     serializer_class = ScanResultSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if instance.status == "running":
+            return Response({
+                "error": "Scan still in progress",
+                "job_status": {
+                    "status": instance.status,
+                    "progress": instance.progress
+                }
+            }, status=status.HTTP_202_ACCEPTED)
+
+        # Otherwise → return normal serialized result
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
