@@ -65,7 +65,7 @@ class ScanSerializer(serializers.ModelSerializer):
 class ScanResultSerializer(serializers.ModelSerializer):
     findings = FindingSerializer(many=True, read_only=True)
     summary = serializers.SerializerMethodField()
-    raw_output = serializers.SerializerMethodField()  # custom field
+    raw_output = serializers.SerializerMethodField()
 
     def get_summary(self, obj: ScanJob):
         findings = obj.findings.all()
@@ -81,8 +81,21 @@ class ScanResultSerializer(serializers.ModelSerializer):
     def get_raw_output(self, obj: ScanJob):
         if obj.raw_output:
             # Limit to first 500 characters
-            return obj.raw_output[:500] + "..." if len(obj.raw_output) > 500 else obj.raw_output
+            return obj.raw_output[:100] + "..." if len(obj.raw_output) > 500 else obj.raw_output
         return ""
+
+
+    def validate_job_id(self, job_id):
+        try:
+            uuid_obj = uuid.UUID(str(job_id))
+        except ValueError:
+            raise serializers.ValidationError({"error": "Invalid id format"})
+
+        if not ScanJob.objects.filter(job_id=uuid_obj).exists():
+            raise serializers.ValidationError({"error": "Scan job not found"})
+
+        return job_id
+
 
     class Meta:
         model = ScanJob
