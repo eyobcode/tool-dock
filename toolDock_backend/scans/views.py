@@ -11,7 +11,7 @@ from .tasks import run_scan_task
 class ScanViewSet(CreateModelMixin, GenericViewSet,RetrieveModelMixin):
     queryset = ScanJob.objects.prefetch_related('findings').all()
     serializer_class = ScanSerializer
-    lookup_field = "job_id"
+    # lookup_field = "job_id"
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -46,3 +46,7 @@ class ScanViewSet(CreateModelMixin, GenericViewSet,RetrieveModelMixin):
         run_scan_task.delay(str(job.job_id))
         response_data = ScanSerializer(job).data
         return Response({"ok": True, "data": response_data}, status=status.HTTP_202_ACCEPTED)
+
+class ScanResultViewSet(GenericViewSet,RetrieveModelMixin):
+    queryset = ScanJob.objects.all()
+    serializer_class = ScanResultSerializer
