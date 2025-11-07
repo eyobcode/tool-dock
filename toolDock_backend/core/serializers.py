@@ -1,6 +1,9 @@
 from rest_framework import serializers
-from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
-from djoser.serializers import TokenCreateSerializer as BaseTokenCreateSerializer
+from djoser.serializers import (
+    UserCreateSerializer as BaseUserCreateSerializer,
+    UserSerializer as BaseUserSerializer,
+    TokenCreateSerializer as BaseTokenCreateSerializer
+)
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -45,3 +48,21 @@ class UserCreateSerializer(BaseUserCreateSerializer):
         }
 
 
+class UserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        model = User
+        fields = ["id", "username", "email", "first_name", "last_name", "role"]
+
+    def to_representation(self, instance):
+        return {
+                "id": str(instance.id),
+                "email": instance.email,
+                "name": f"{instance.first_name} {instance.last_name}",
+                "role": getattr(instance, "role", "user"),
+                "profile": {
+                    "bio": instance.profile.bio,
+                    "xp": instance.profile.xp,
+                    "level": instance.profile.level,
+                } if hasattr(instance, 'profile') else None
+                ,
+        }
