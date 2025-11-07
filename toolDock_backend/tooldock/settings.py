@@ -161,6 +161,7 @@ DJOSER = {
     "SERIALIZERS": {
         'user_create': 'core.serializers.UserCreateSerializer',
         'token_create': 'core.serializers.TokenCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer',
     }
 }
 
