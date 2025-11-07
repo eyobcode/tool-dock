@@ -1,11 +1,11 @@
 import json
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin,ListModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
 
 from .models import ScanJob
-from .serializers import ScanSerializer,ScanResultSerializer, ScanRetrieveSerializer
+from .serializers import ScanSerializer,ScanResultSerializer, ScanRetrieveSerializer,ScanHistorySerializer
 from .tasks import run_scan_task
 
 class ScanViewSet(CreateModelMixin, GenericViewSet,RetrieveModelMixin):
@@ -66,3 +66,17 @@ class ScanResultViewSet(GenericViewSet,RetrieveModelMixin):
         # Otherwise → return normal serialized result
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+
+class ScanHistoryViewSet(GenericViewSet,RetrieveModelMixin,ListModelMixin):
+    queryset = ScanJob.objects.all()
+    serializer_class = ScanHistorySerializer
+
+
+
+
+
+
+
+
+
