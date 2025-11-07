@@ -66,3 +66,25 @@ class UserSerializer(BaseUserSerializer):
                 } if hasattr(instance, 'profile') else None
                 ,
         }
+
+
+# class TokenCreateSerializer(BaseTokenCreateSerializer):
+#     def validate(self, attrs):
+#         # Authenticate user (Djoser base handles this)
+#         data = super().validate(attrs)
+#         user = self.user  # Set by base validate after authentication
+#
+#         # Generate access token
+#         refresh = RefreshToken.for_user(user)
+#         data = {
+#             "token": str(refresh.access_token),
+#             "user": {
+#                 "id": str(user.id),
+#                 "email": user.email,
+#                 "name": f"{user.first_name} {user.last_name}",
+#                 "role": getattr(user, "role", "user"),
+#                 "created_at": user.date_joined.isoformat(),
+#                 "profile": user.profile,
+#             }
+#         }
+#         return data
