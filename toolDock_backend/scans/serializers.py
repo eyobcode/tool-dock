@@ -153,4 +153,25 @@ class ScanRetrieveSerializer(serializers.ModelSerializer):
 
 
 
+class ScanHistorySerializer(serializers.ModelSerializer):
+    scan = serializers.SerializerMethodField()
 
+    def get_scan(self, obj: ScanJob):
+        findings = obj.findings.all()
+        summary = {
+            "total_findings": findings.count(),
+            "critical": findings.filter(severity="critical").count(),
+            "high": findings.filter(severity="high").count(),
+            "medium": findings.filter(severity="medium").count(),
+            "low": findings.filter(severity="low").count(),
+            "info": findings.filter(severity="info").count(),
+        }
+
+        # Serialize the scan job (not a list)
+        scan_data = ScanRetrieveSerializer(obj).data
+        scan_data["summary"] = summary
+        return scan_data
+
+    class Meta:
+        model = ScanJob
+        fields = ["scan"]
