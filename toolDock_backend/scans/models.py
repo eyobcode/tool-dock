@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
-from uuid import uuid4 
-from django.utils.translation import gettext_lazy as _ 
+from uuid import uuid4
 
 
 
@@ -60,7 +59,7 @@ class ScanJob(models.Model):
     ]
 
     job_id = models.UUIDField(primary_key=True,default=uuid4,editable=False,unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="scans",null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="scans")
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="scan_jobs")
     input_type = models.CharField(max_length=50)
     target = models.CharField(max_length=255)
@@ -95,5 +94,12 @@ class Finding(models.Model):
     remediation = models.TextField(blank=True)
     references = models.JSONField(default=list, blank=True)
     affected_component = models.CharField(max_length=255, blank=True)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
+    bio = models.TextField(blank=True)
+    xp = models.PositiveIntegerField(default=0, blank=True)
+    level = models.PositiveIntegerField(default=0, blank=True)
 
 
