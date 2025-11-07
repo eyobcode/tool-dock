@@ -175,3 +175,10 @@ class ScanHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ScanJob
         fields = ["scan"]
+
+
+
+# class ProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Profile
+#         fields = ['bio', 'xp', 'level']
